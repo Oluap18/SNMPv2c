@@ -4,11 +4,16 @@
 
 struct asn_TYPE_descriptor_s;	/* Forward declaration */
 
+extern struct asn_TYPE_descriptor_s asn_DEF_Gauge32;
+extern struct asn_TYPE_descriptor_s asn_DEF_PDUs;
 extern struct asn_TYPE_descriptor_s asn_DEF_Message;
 
 
 struct asn_TYPE_descriptor_s *asn_pdu_collection[] = {
-	/* From module COMMUNITY-BASED-SNMPv2 in COMMUNITY-BASED-SNMPv2.asn1 */
+	/* From module SNMPv2-PDU in snmp.asn1c */
+	&asn_DEF_Gauge32,	
+	&asn_DEF_PDUs,	
+	/* From module COMMUNITY-BASED-SNMPv2 in snmp.asn1c */
 	&asn_DEF_Message,	
 	0
 };
