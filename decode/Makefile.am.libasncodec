@@ -1,7 +1,55 @@
 ASN_MODULE_SRCS=	\
+	ObjectName.c	\
+	ObjectSyntax.c	\
+	SimpleSyntax.c	\
+	ApplicationSyntax.c	\
+	IpAddress.c	\
+	Counter32.c	\
+	Unsigned32.c	\
+	Gauge32.c	\
+	TimeTicks.c	\
+	Opaque.c	\
+	Counter64.c	\
+	PDUs.c	\
+	GetRequest-PDU.c	\
+	GetNextRequest-PDU.c	\
+	Response-PDU.c	\
+	SetRequest-PDU.c	\
+	GetBulkRequest-PDU.c	\
+	InformRequest-PDU.c	\
+	SNMPv2-Trap-PDU.c	\
+	Report-PDU.c	\
+	PDU.c	\
+	BulkPDU.c	\
+	VarBind.c	\
+	VarBindList.c	\
 	Message.c
 
 ASN_MODULE_HDRS=	\
+	ObjectName.h	\
+	ObjectSyntax.h	\
+	SimpleSyntax.h	\
+	ApplicationSyntax.h	\
+	IpAddress.h	\
+	Counter32.h	\
+	Unsigned32.h	\
+	Gauge32.h	\
+	TimeTicks.h	\
+	Opaque.h	\
+	Counter64.h	\
+	PDUs.h	\
+	GetRequest-PDU.h	\
+	GetNextRequest-PDU.h	\
+	Response-PDU.h	\
+	SetRequest-PDU.h	\
+	GetBulkRequest-PDU.h	\
+	InformRequest-PDU.h	\
+	SNMPv2-Trap-PDU.h	\
+	Report-PDU.h	\
+	PDU.h	\
+	BulkPDU.h	\
+	VarBind.h	\
+	VarBindList.h	\
 	Message.h
 
 ASN_MODULE_HDRS+=ANY.h
@@ -10,13 +58,27 @@ ASN_MODULE_HDRS+=OCTET_STRING.h
 ASN_MODULE_HDRS+=OPEN_TYPE.h
 ASN_MODULE_SRCS+=OPEN_TYPE.c
 ASN_MODULE_HDRS+=constr_CHOICE.h
+ASN_MODULE_HDRS+=BOOLEAN.h
+ASN_MODULE_SRCS+=BOOLEAN.c
 ASN_MODULE_HDRS+=INTEGER.h
 ASN_MODULE_SRCS+=INTEGER.c
+ASN_MODULE_HDRS+=NULL.h
+ASN_MODULE_SRCS+=NULL.c
 ASN_MODULE_HDRS+=NativeInteger.h
 ASN_MODULE_SRCS+=NativeInteger.c
+ASN_MODULE_HDRS+=OBJECT_IDENTIFIER.h
+ASN_MODULE_SRCS+=OBJECT_IDENTIFIER.c
+ASN_MODULE_HDRS+=asn_SEQUENCE_OF.h
+ASN_MODULE_SRCS+=asn_SEQUENCE_OF.c
+ASN_MODULE_HDRS+=asn_SET_OF.h
+ASN_MODULE_SRCS+=asn_SET_OF.c
 ASN_MODULE_SRCS+=constr_CHOICE.c
 ASN_MODULE_HDRS+=constr_SEQUENCE.h
 ASN_MODULE_SRCS+=constr_SEQUENCE.c
+ASN_MODULE_HDRS+=constr_SEQUENCE_OF.h
+ASN_MODULE_SRCS+=constr_SEQUENCE_OF.c
+ASN_MODULE_HDRS+=constr_SET_OF.h
+ASN_MODULE_SRCS+=constr_SET_OF.c
 ASN_MODULE_HDRS+=asn_application.h
 ASN_MODULE_SRCS+=asn_application.c
 ASN_MODULE_HDRS+=asn_ioc.h
@@ -71,6 +133,7 @@ ASN_MODULE_SRCS+=OCTET_STRING_oer.c
 ASN_MODULE_SRCS+=NativeInteger_oer.c
 ASN_MODULE_SRCS+=constr_CHOICE_oer.c
 ASN_MODULE_SRCS+=constr_SEQUENCE_oer.c
+ASN_MODULE_SRCS+=constr_SET_OF_oer.c
 
 ASN_MODULE_CFLAGS=
 

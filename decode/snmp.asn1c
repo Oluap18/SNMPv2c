@@ -1,4 +1,4 @@
-   SNMPv2-PDU DEFINITIONS ::= BEGIN
+SNMPv2-PDU DEFINITIONS ::= BEGIN
 
    ObjectName ::= OBJECT IDENTIFIER
 
@@ -19,7 +19,7 @@
          big-counter-value      Counter64,
          unsigned-integer-value Unsigned32 }
 
-   IpAddress ::= [APPLICATION 0] IMPLICIT OCTET STRING (SIZE (4))
+IpAddress ::= [APPLICATION 0] IMPLICIT OCTET STRING (SIZE (4))
 
    Counter32 ::= [APPLICATION 1] IMPLICIT INTEGER (0..4294967295)
 
@@ -64,11 +64,8 @@
 
    SNMPv2-Trap-PDU ::= [7] IMPLICIT PDU
 
-   --   Usage and precise semantics of Report-PDU are not defined
-   --   in this document.  Any SNMP administrative framework making
-   --   use of this PDU must define its usage and semantics.
 
-   Report-PDU ::= [8] IMPLICIT PDU
+Report-PDU ::= [8] IMPLICIT PDU
 
    max-bindings INTEGER ::= 2147483647
 
@@ -117,7 +114,7 @@
 
    -- variable binding
 
-   VarBind ::= SEQUENCE {
+VarBind ::= SEQUENCE {
            name ObjectName,
 
            CHOICE {
@@ -128,11 +125,30 @@
                noSuchObject   [0] IMPLICIT NULL,
                noSuchInstance [1] IMPLICIT NULL,
                endOfMibView   [2] IMPLICIT NULL
-           }
-       }
-
-   -- variable-binding list
+            }
+         }
 
    VarBindList ::= SEQUENCE (SIZE (0..max-bindings)) OF VarBind
 
    END
+
+COMMUNITY-BASED-SNMPv2 DEFINITIONS ::= BEGIN
+
+    -- top-level message
+
+        Message ::=
+                SEQUENCE {
+                     version
+                        INTEGER {
+                            version(1)  -- modified from RFC 1157
+                        },
+
+                    community           -- community name
+                        OCTET STRING,
+
+                    data                -- PDUs as defined in [4]
+                        ANY
+                }
+        
+
+    END
