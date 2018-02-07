@@ -5,6 +5,16 @@ CFLAGS += $(ASN_MODULE_CFLAGS) -DASN_PDU_COLLECTION -I.
 ASN_LIBRARY ?= libasncodec.a
 ASN_PROGRAM ?= encoder
 ASN_PROGRAM_SRCS ?= \
+	setRequestPDU.c\
+	pdus.c\
+	varBindList.c\
+	varbind.c\
+	objectname.c\
+	API.c\
+	objectSyntax.c\
+	applicationSyntax.c\
+	object_identifier.c\
+	simpleSyntax.c\
 	encoder.c\
 	pdu_collection.c
 
@@ -30,4 +40,3 @@ regen: regenerate-from-asn1-source
 
 regenerate-from-asn1-source:
 	asn1c COMMUNITY-BASED-SNMPv2.asn1
-
