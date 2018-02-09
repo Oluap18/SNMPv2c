@@ -1,6 +1,7 @@
 #include "pdus.h"
 
-void createPDU(PDUs_t *pdus, SetRequest_PDU_t* setRequestPDU, int escolha){
+PDUs_t* createPDU(SetRequest_PDU_t* setRequestPDU, int escolha){
+	PDUs_t *pdus;
 	pdus = calloc(1, sizeof(PDUs_t));
 	switch(escolha){
 		case 0:

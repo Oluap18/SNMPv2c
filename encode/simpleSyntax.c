@@ -1,7 +1,8 @@
 #include "simpleSyntax.h"
 #include "object_identifier.h"
 
-void createSimpleSyntax(SimpleSyntax_t* simple, int flag, void* value){
+SimpleSyntax_t* createSimpleSyntax(int flag, void* value){
+	SimpleSyntax_t* simple;
 	simple = calloc(1, sizeof(SimpleSyntax_t));
 	OCTET_STRING_t* octet;
 	OBJECT_IDENTIFIER_t* oid;

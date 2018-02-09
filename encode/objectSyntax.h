@@ -9,6 +9,6 @@
  * assume que o value é do tipo SimpleSyntax_t*, preenchendo o object com os valores
  * adequados. Caso a flag seja 1, assume que o value é do tipo ApplicationSyntax_t*.
 */
-void create_Object_Syntax(ObjectSyntax_t* object, int flag, void* value);
+ObjectSyntax_t* createObjectSyntax(int flag, void* value);
 
 #endif

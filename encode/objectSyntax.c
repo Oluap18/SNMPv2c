@@ -2,7 +2,8 @@
 #include "SimpleSyntax.h"
 #include "ApplicationSyntax.h"
 
-void create_Object_Syntax(ObjectSyntax_t* object, int flag, void* value){
+ObjectSyntax_t* createObjectSyntax(int flag, void* value){
+	ObjectSyntax_t* object;
 	object = calloc(1, sizeof(ObjectSyntax_t)); 
 	if(flag==0){
 		object->present = ObjectSyntax_PR_simple;

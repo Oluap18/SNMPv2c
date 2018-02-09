@@ -6,6 +6,9 @@
 #include "setRequestPDU.h"
 #include "pdus.h"
 
+//Para limpar o buffer
+char c;
+
 int menuPri(){
 	int escolha;
 	printf("Escolha a Primitiva\n");
@@ -18,7 +21,6 @@ int menuPri(){
 	printf("6. snmpV2_trap\n");
 	printf("7. report\n");
 	scanf("%d", &escolha);
-	printf("%d\n", escolha);
 	return escolha;
 }
 
@@ -41,7 +43,8 @@ void setRequest(ObjectSyntax_t* object_syntax){
 	printf("7. BigCounter\n");
 	printf("8. UnsignedInteger\n");
 	scanf("%d", &escolha);
-	printf("%d\n", escolha);
+	//Clear input buffer
+	while ((c = getchar()) != '\n' && c != EOF) { }
 
 	switch(escolha){
 		case 0:
@@ -51,17 +54,17 @@ void setRequest(ObjectSyntax_t* object_syntax){
 			break;
 		case 1:
 			printf("Insira a String a colocar:\n");
-			scanf("%s", string);
+			fgets(string, 1024, stdin);
 			value = string;
 			break;
 		case 2:
 			printf("Insira o OID a colocar:\n");
-			scanf("%s", string);
+			fgets(string, 1024, stdin);
 			value = string;
 			break;
 		case 3:
 			printf("Insira o IpAddress:\n");
-			scanf("%s", string);
+			fgets(string, 1024, stdin);
 			value = string;
 		case 4:
 			printf("Insira o Counter a colocar:\n");
@@ -73,7 +76,7 @@ void setRequest(ObjectSyntax_t* object_syntax){
 			value = &lu;
 		case 6:
 			printf("Insira algo arbitrário a colocar\n");
-			scanf("%s", string);
+			fgets(string, 1024, stdin);
 			value = string;
 		case 7:
 			printf("Insira o BigCounter a colocar\n");
@@ -84,7 +87,7 @@ void setRequest(ObjectSyntax_t* object_syntax){
 			scanf("%lu", &lu);
 			value = &lu;
 	}
-	setRequestPri(object_syntax, escolha, value);
+	object_syntax = setRequestPri(escolha, value);
 }
 
 void priInput(ObjectSyntax_t* object_syntax, int escolha){
@@ -114,11 +117,10 @@ void getOID(ObjectName_t* object_name){
 	char oid[1024];
 	object_name = calloc(1, sizeof(ObjectName_t)); 
 	printf("Insira o OID:\n");
-	scanf("%s", oid);
-	if(Object_Name_fromBuf(object_name, oid, -1)==-1){
+	fgets(oid, 1024, stdin);
+	if(objectNameFromBuf(object_name, oid, -1)==-1){
 		printf("Erro na conversão para OCTET_STRING.\n");
 	}
-
 }
 
 void main(){
@@ -137,9 +139,17 @@ void main(){
 	pri = menuPri();
 	priInput(object_syntax, pri);
 	getOID(object_name);
-	createVarbind(var_bind, object_syntax, object_name);
+	printf("10\n");
+	var_bind = createVarbind(object_syntax, object_name);
+	printf("11\n");
 	int r = ASN_SEQUENCE_ADD(&varlist->list, var_bind);
-	createSetRequestPDU(setRequestPDU, pri, varlist);
-	createPDU(pdu, setRequestPDU, pri);
-	asn_enc_rval_t ret = asn_encode_to_buffer(0, ATS_BER, &asn_DEF_PDUs, pdu, buffer, buffer_size); 
+	printf("12\n");
+	setRequestPDU = createSetRequestPDU(pri, varlist);
+	printf("13\n");
+	pdu = createPDU(setRequestPDU, pri);
+	
+	asn_enc_rval_t ret = asn_encode_to_buffer(0, ATS_BER, &asn_DEF_PDUs, pdu, buffer, buffer_size);
+	printf("15\n"); 
+
+	printf("%ld %ld\n", ret.encoded, strlen(buffer));
 }

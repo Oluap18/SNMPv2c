@@ -11,6 +11,6 @@
  * caso a flag seja 1, assume que o value é um char* e preenche a estrutura com string_value
  * caso a flag seja 2, assume que o value é um char* e preenche a estrutura com objectID_value.
 */
-void createSimpleSyntax(SimpleSyntax_t* simple, int flag, void* value);
+SimpleSyntax_t* createSimpleSyntax(int flag, void* value);
 
 #endif

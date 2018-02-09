@@ -1,6 +1,7 @@
 #include "applicationSyntax.h"
 
-void Create_Application_Syntax(ApplicationSyntax_t* application, int flag, void* value){
+ApplicationSyntax_t* createApplicationSyntax(int flag, void* value){
+	ApplicationSyntax_t* application;
 	application = calloc(1, sizeof(ApplicationSyntax_t));
 	OCTET_STRING_t* octet;
 	Counter32_t* counter;

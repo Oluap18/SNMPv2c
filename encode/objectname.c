@@ -5,7 +5,7 @@
 /*
  * Conversion routines.
  */
-int object_Name_fromBuf(ObjectName_t *st, const char *str, int len){
+int objectNameFromBuf(ObjectName_t *st, const char *str, int len){
     void *buf;
 
     if(st == 0 || (str == 0 && len)) {

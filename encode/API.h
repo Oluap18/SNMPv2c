@@ -3,6 +3,6 @@
 
 #include "objectSyntax.h"
 
-void setRequestPri(ObjectSyntax_t* object_syntax, int flag, void* setValue);
+ObjectSyntax_t* setRequestPri(int flag, void* setValue);
 
 #endif

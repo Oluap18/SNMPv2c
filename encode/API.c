@@ -2,18 +2,20 @@
 #include "API.h"
 #include "applicationSyntax.h"
 
-void setRequestPri(ObjectSyntax_t* object_syntax, int flag, void* setValue){
+ObjectSyntax_t* setRequestPri(int flag, void* setValue){
+	ObjectSyntax_t* object_syntax;
 	SimpleSyntax_t* simple;
 	ApplicationSyntax_t* application;
+	void* value;
 
 	if(flag >=0 && flag < 4){
-		create_SimpleSyntax(simple, flag, setValue);
-		create_ObjectSyntax(object_syntax, 0, simple);
+		simple = createSimpleSyntax(flag, setValue);
+		value = simple;
+		object_syntax = createObjectSyntax(0, simple);
 	}
 	else{
-		createApplicationSyntax(application, flag-4, setValue);
-		createObjectSyntax(object_syntax, 1, application);
+		application = createApplicationSyntax(flag-4, setValue);
+		value = application;
+		object_syntax = createObjectSyntax(1, application);
 	}
 }
-
-void setVarbin()

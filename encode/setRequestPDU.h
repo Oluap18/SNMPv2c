@@ -8,6 +8,6 @@
  *
  *
 */
-void createSetRequestPDU(SetRequest_PDU_t* setRequestPDU, int requestID, VarBindList_t* varlist);
+SetRequest_PDU_t* createSetRequestPDU(int requestID, VarBindList_t* varlist);
 
 #endif

@@ -13,6 +13,6 @@
  * current contents of the ObjectName.
  * Returns 0 if it was possible to perform operation, -1 otherwise.
  */
-int object_Name_fromBuf(ObjectName_t *st, const char *str, int len);
+int objectNameFromBuf(ObjectName_t *st, const char *str, int len);
 
 #endif

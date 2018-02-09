@@ -14,6 +14,6 @@
  * caso a flag seja 4, assume que o value é um int* e preenche a estrutura com o big_counter_value
  * caso a flag seja 5, assume que o value é um unsigned long* e preenche a estrutura com o unsigned_integer_value
 */
-void Create_Application_Syntax(ApplicationSyntax_t* application, int flag, void* value);
+ApplicationSyntax_t* createApplicationSyntax(int flag, void* value);
 
 #endif

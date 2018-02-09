@@ -5,6 +5,6 @@
 #include "ObjectSyntax.h"
 #include "ObjectName.h"
 
-void createVarbind(VarBind_t* var_bind, ObjectSyntax_t* object_syntax, ObjectName_t* object_name);
+VarBind_t* createVarbind(ObjectSyntax_t* object_syntax, ObjectName_t* object_name);
 
 #endif
