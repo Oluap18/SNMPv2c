@@ -1,8 +1,9 @@
 #ifndef	_API_H_
 #define	_API_H_
 
-#include "objectSyntax.h"
+#include "ObjectName.h"
 
-ObjectSyntax_t* setRequestPri(int flag, void* setValue);
+ObjectName_t* getOID(char* oid);
+void setRequestPri(int flag, void* setValue, unsigned long version, char* community, char* oid);
 
 #endif
