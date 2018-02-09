@@ -6,4 +6,6 @@ VarBind_t* createVarbind(ObjectSyntax_t* object_syntax, ObjectName_t* object_nam
 	var_bind->name = *object_name;
 	var_bind->choice.present = choice_PR_value;
 	var_bind->choice.choice.value = *object_syntax;
+
+	return var_bind;
 }

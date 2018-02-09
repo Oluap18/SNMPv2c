@@ -5,6 +5,8 @@
 #include "varBindList.h"
 #include "setRequestPDU.h"
 #include "pdus.h"
+#include "any.h"
+#include "message.h"
 
 //Para limpar o buffer
 char c;
@@ -24,7 +26,8 @@ int menuPri(){
 	return escolha;
 }
 
-void setRequest(ObjectSyntax_t* object_syntax){
+ObjectSyntax_t* setRequest(){
+	ObjectSyntax_t* object_syntax;
 	int escolha;
 	char string[1024];
 	long integer;
@@ -88,9 +91,11 @@ void setRequest(ObjectSyntax_t* object_syntax){
 			value = &lu;
 	}
 	object_syntax = setRequestPri(escolha, value);
+	return object_syntax;
 }
 
-void priInput(ObjectSyntax_t* object_syntax, int escolha){
+ObjectSyntax_t* priInput(int escolha){
+	ObjectSyntax_t* object_syntax;
 
 	switch(escolha){
 		case 0:
@@ -102,7 +107,7 @@ void priInput(ObjectSyntax_t* object_syntax, int escolha){
 		case 3:
 			break;
 		case 4:
-			setRequest(object_syntax);
+			object_syntax = setRequest();
 			break;
 		case 5:
 			break;
@@ -111,9 +116,11 @@ void priInput(ObjectSyntax_t* object_syntax, int escolha){
 		case 7:
 			break;
 	}
+	return object_syntax;
 }
 
-void getOID(ObjectName_t* object_name){
+ObjectName_t* getOID(){
+	ObjectName_t* object_name;
 	char oid[1024];
 	object_name = calloc(1, sizeof(ObjectName_t)); 
 	printf("Insira o OID:\n");
@@ -121,6 +128,22 @@ void getOID(ObjectName_t* object_name){
 	if(objectNameFromBuf(object_name, oid, -1)==-1){
 		printf("Erro na conversão para OCTET_STRING.\n");
 	}
+
+	return object_name;
+}
+
+Message_t* mensagem(ANY_t* data){
+	Message_t* message;
+	long lu;
+	char comm[1024];
+	printf("Qual a versão do snmp?\n");
+	scanf("%ld", &lu);
+	//Clear input buffer
+	while ((c = getchar()) != '\n' && c != EOF) { }
+	printf("Qual a community string?\n");
+	fgets(comm, 1024, stdin);
+	message = createMessage(data, lu, comm);
+	return message;
 }
 
 void main(){
@@ -130,26 +153,31 @@ void main(){
 	VarBindList_t* varlist;
 	SetRequest_PDU_t* setRequestPDU;
 	PDUs_t *pdu;
+	ANY_t* data;
+	Message_t* message;
+	uint8_t buffer_final[1024];
+	size_t buffer_final_size = 1024;
 	int pri;
-	uint8_t buffer[1024];
-	size_t buffer_size = 1024;
 
 	varlist = calloc(1, sizeof(VarBindList_t)); 
 
 	pri = menuPri();
-	priInput(object_syntax, pri);
-	getOID(object_name);
-	printf("10\n");
+	object_syntax = priInput(pri);
+	object_name = getOID();
 	var_bind = createVarbind(object_syntax, object_name);
-	printf("11\n");
 	int r = ASN_SEQUENCE_ADD(&varlist->list, var_bind);
-	printf("12\n");
 	setRequestPDU = createSetRequestPDU(pri, varlist);
-	printf("13\n");
 	pdu = createPDU(setRequestPDU, pri);
-	
-	asn_enc_rval_t ret = asn_encode_to_buffer(0, ATS_BER, &asn_DEF_PDUs, pdu, buffer, buffer_size);
-	printf("15\n"); 
+	data = createANY(pdu);
+	message = mensagem(data);
 
-	printf("%ld %ld\n", ret.encoded, strlen(buffer));
+	asn_enc_rval_t ret = asn_encode_to_buffer(0, ATS_BER, &asn_DEF_Message, message, buffer_final, buffer_final_size);
+
+	if(ret.encoded == -1){
+		printf("Erro a codificar o %s\n", ret.failed_type->name);
+	}
+	else{
+		printf("All good\n");
+	} 
+	
 }

@@ -33,4 +33,5 @@ PDUs_t* createPDU(SetRequest_PDU_t* setRequestPDU, int escolha){
 			break;
 	}
 	pdus->choice.set_request = *setRequestPDU; 
+	return pdus;
 }

@@ -7,4 +7,5 @@ SetRequest_PDU_t* createSetRequestPDU(int requestID, VarBindList_t* varlist){
 	setRequestPDU->error_index = 0;
 	setRequestPDU->error_status = 0;
 	setRequestPDU->variable_bindings = *varlist; 
+	return setRequestPDU;
 }
