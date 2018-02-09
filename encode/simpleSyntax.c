@@ -13,6 +13,7 @@ SimpleSyntax_t* createSimpleSyntax(int flag, void* value){
 			break;
 		case 1:
 			simple->present = SimpleSyntax_PR_string_value;
+			octet = calloc(1, sizeof(OCTET_STRING_t));
 			if(OCTET_STRING_fromBuf(octet, (char*) value, -1) == -1){
 				printf("Erro na conversão para OCTET_STRING.\n");
 			}

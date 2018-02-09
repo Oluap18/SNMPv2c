@@ -3,6 +3,7 @@
 PDUs_t* createPDU(SetRequest_PDU_t* setRequestPDU, int escolha){
 	PDUs_t *pdus;
 	pdus = calloc(1, sizeof(PDUs_t));
+	printf("Escolha = %d\n", escolha);
 	switch(escolha){
 		case 0:
 			pdus->present = PDUs_PR_get_request;
