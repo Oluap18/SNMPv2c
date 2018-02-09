@@ -44,4 +44,5 @@ ApplicationSyntax_t* createApplicationSyntax(int flag, void* value){
 			application->choice.unsigned_integer_value = *unsig32;
 			break;
 	}
+	return application;
 }

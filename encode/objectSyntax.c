@@ -13,4 +13,5 @@ ObjectSyntax_t* createObjectSyntax(int flag, void* value){
 		object->present = ObjectSyntax_PR_application_wide;
 		object->choice.application_wide = (*(ApplicationSyntax_t*) value);
 	}
+	return object;
 }

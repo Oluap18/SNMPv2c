@@ -27,4 +27,5 @@ SimpleSyntax_t* createSimpleSyntax(int flag, void* value){
 			simple->choice.objectID_value = *oid;
 			break;
 	}
+	return simple;
 }

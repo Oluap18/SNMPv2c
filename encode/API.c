@@ -18,4 +18,5 @@ ObjectSyntax_t* setRequestPri(int flag, void* setValue){
 		value = application;
 		object_syntax = createObjectSyntax(1, application);
 	}
+	return object_syntax;
 }

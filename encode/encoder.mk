@@ -5,6 +5,8 @@ CFLAGS += $(ASN_MODULE_CFLAGS) -DASN_PDU_COLLECTION -I.
 ASN_LIBRARY ?= libasncodec.a
 ASN_PROGRAM ?= encoder
 ASN_PROGRAM_SRCS ?= \
+	message.c\
+	any.c\
 	setRequestPDU.c\
 	pdus.c\
 	varBindList.c\
