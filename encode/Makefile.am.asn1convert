@@ -10,5 +10,5 @@ asn1convert_SOURCES = \
 regen: regenerate-from-asn1-source
 
 regenerate-from-asn1-source:
-	asn1c COMMUNITY-BASED-SNMPv2.asn1
+	asn1c snmp.asn1c
 

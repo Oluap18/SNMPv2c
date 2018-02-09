@@ -1,0 +1,14 @@
+#ifndef	_Object_Syntax_H_
+#define	_Object_Syntax_H_
+
+#include "ObjectSyntax.h"
+
+/*
+ * Assume que a estrutura ObjectSyntax está vazia, alocando memória para esta
+ * e preenchendo com o valor "value", dependendo da flag. Caso a flag seja 0
+ * assume que o value é do tipo SimpleSyntax_t*, preenchendo o object com os valores
+ * adequados. Caso a flag seja 1, assume que o value é do tipo ApplicationSyntax_t*.
+*/
+ObjectSyntax_t* createObjectSyntax(int flag, void* value);
+
+#endif
