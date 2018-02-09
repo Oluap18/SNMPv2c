@@ -27,13 +27,13 @@ void setRequestPri(int flag, void* setValue, unsigned long version, char* commun
 
 	varlist = calloc(1, sizeof(VarBindList_t));
 
-	if(flag >=0 && flag < 4){
+	if(flag >=0 && flag < 3){
 		simple = createSimpleSyntax(flag, setValue);
 		value = simple;
 		object_syntax = createObjectSyntax(0, simple);
 	}
 	else{
-		application = createApplicationSyntax(flag-4, setValue);
+		application = createApplicationSyntax(flag-3, setValue);
 		value = application;
 		object_syntax = createObjectSyntax(1, application);
 	}
@@ -42,7 +42,7 @@ void setRequestPri(int flag, void* setValue, unsigned long version, char* commun
 	var_bind = createVarbind(object_syntax, object_name);
 	int r = ASN_SEQUENCE_ADD(&varlist->list, var_bind);
 	setRequestPDU = createSetRequestPDU(flag, varlist);
-	pdu = createPDU(setRequestPDU, flag);
+	pdu = createPDU(setRequestPDU, 4);
 	data = createANY(pdu);
 	message = createMessage(data, version, community);
 	asn_enc_rval_t ret = asn_encode_to_buffer(0, ATS_BER, &asn_DEF_Message, message, buffer_final, buffer_final_size);
@@ -52,6 +52,7 @@ void setRequestPri(int flag, void* setValue, unsigned long version, char* commun
 	}
 	else{
 		xer_fprint(stdout, &asn_DEF_Message, message);
+		xer_fprint(stdout, &asn_DEF_PDUs, pdu);
 	} 
 
 }

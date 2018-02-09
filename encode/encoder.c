@@ -68,26 +68,32 @@ void setRequest(){
 			printf("Insira o IpAddress:\n");
 			fgets(string, 1024, stdin);
 			value = string;
+			break;
 		case 4:
 			printf("Insira o Counter a colocar:\n");
 			scanf("%lu", &lu);
 			value = &lu;
+			break;
 		case 5:
 			printf("Insira o TimeTicks a colocar\n");
 			scanf("%lu", &lu);
 			value = &lu;
+			break;
 		case 6:
 			printf("Insira algo arbitrário a colocar\n");
 			fgets(string, 1024, stdin);
 			value = string;
+			break;
 		case 7:
 			printf("Insira o BigCounter a colocar\n");
 			scanf("%d", &inteiro);
 			value = &inteiro;
+			break;
 		case 8:
 			printf("Insira o UnsignedInteger a colocar\n");
 			scanf("%lu", &lu);
 			value = &lu;
+			break;
 	}
 
 	printf("Qual a versão do snmp?\n");
