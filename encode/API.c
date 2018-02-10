@@ -27,7 +27,7 @@ void getRequestPri(unsigned long version, char* community, char* oid){
 	object_name = getOID(oid);
 	var_bind = createVarbind(object_syntax, object_name);
 	int r = ASN_SEQUENCE_ADD(&varlist->list, var_bind);
-	pdu = createPDU(0, varlist);
+	pdu = createPDU(0, 0, 0, varlist);
 	pdus = createPDUs(pdu, 0);
 	data = createANY(pdus);
 	message = createMessage(data, version, community);
@@ -59,7 +59,7 @@ void getNextRequestPri(unsigned long version, char* community, char* oid){
 	object_name = getOID(oid);
 	var_bind = createVarbind(object_syntax, object_name);
 	int r = ASN_SEQUENCE_ADD(&varlist->list, var_bind);
-	pdu = createPDU(1, varlist);
+	pdu = createPDU(1, 0, 0, varlist);
 	pdus = createPDUs(pdu, 1);
 	data = createANY(pdus);
 	message = createMessage(data, version, community);
@@ -106,6 +106,109 @@ void getBulkRequestPri(long non_r, long max_r, unsigned long version, char* comm
 	} 
 }
 
+void responsePri(long index, long status, unsigned long version, char* community, char* oid){
+	ObjectSyntax_t* object_syntax;
+	ObjectName_t* object_name; 
+	VarBind_t* var_bind; 
+	VarBindList_t* varlist;
+	PDU_t* pdu;
+	PDUs_t *pdus;
+	ANY_t* data;
+	Message_t* message;
+	uint8_t buffer_final[1024];
+	size_t buffer_final_size = 1024;
+	void* value;
+
+	varlist = calloc(1, sizeof(VarBindList_t));
+
+	object_syntax = createObjectSyntax(2, NULL);
+	object_name = getOID(oid);
+	var_bind = createVarbind(object_syntax, object_name);
+	int r = ASN_SEQUENCE_ADD(&varlist->list, var_bind);
+	pdu = createPDU(3, index, status, varlist);
+	pdus = createPDUs(pdu, 3);
+	data = createANY(pdus);
+	message = createMessage(data, version, community);
+	asn_enc_rval_t ret = asn_encode_to_buffer(0, ATS_BER, &asn_DEF_Message, message, buffer_final, buffer_final_size);
+
+	if(ret.encoded == -1){
+		printf("Erro a codificar o %s\n", ret.failed_type->name);
+	}
+	else{
+		xer_fprint(stdout, &asn_DEF_Message, message);
+		xer_fprint(stdout, &asn_DEF_PDUs, pdus);
+	} 
+
+}
+
+void informRequestPri(long index, long status, unsigned long version, char* community, char* oid){
+	ObjectSyntax_t* object_syntax;
+	ObjectName_t* object_name; 
+	VarBind_t* var_bind; 
+	VarBindList_t* varlist;
+	PDU_t* pdu;
+	PDUs_t *pdus;
+	ANY_t* data;
+	Message_t* message;
+	uint8_t buffer_final[1024];
+	size_t buffer_final_size = 1024;
+	void* value;
+
+	varlist = calloc(1, sizeof(VarBindList_t));
+
+	object_syntax = createObjectSyntax(2, NULL);
+	object_name = getOID(oid);
+	var_bind = createVarbind(object_syntax, object_name);
+	int r = ASN_SEQUENCE_ADD(&varlist->list, var_bind);
+	pdu = createPDU(5, index, status, varlist);
+	pdus = createPDUs(pdu, 5);
+	data = createANY(pdus);
+	message = createMessage(data, version, community);
+	asn_enc_rval_t ret = asn_encode_to_buffer(0, ATS_BER, &asn_DEF_Message, message, buffer_final, buffer_final_size);
+
+	if(ret.encoded == -1){
+		printf("Erro a codificar o %s\n", ret.failed_type->name);
+	}
+	else{
+		xer_fprint(stdout, &asn_DEF_Message, message);
+		xer_fprint(stdout, &asn_DEF_PDUs, pdus);
+	} 
+}
+
+void trapPri(long index, long status, unsigned long version, char* community, char* oid){
+	ObjectSyntax_t* object_syntax;
+	ObjectName_t* object_name; 
+	VarBind_t* var_bind; 
+	VarBindList_t* varlist;
+	PDU_t* pdu;
+	PDUs_t *pdus;
+	ANY_t* data;
+	Message_t* message;
+	uint8_t buffer_final[1024];
+	size_t buffer_final_size = 1024;
+	void* value;
+
+	varlist = calloc(1, sizeof(VarBindList_t));
+
+	object_syntax = createObjectSyntax(2, NULL);
+	object_name = getOID(oid);
+	var_bind = createVarbind(object_syntax, object_name);
+	int r = ASN_SEQUENCE_ADD(&varlist->list, var_bind);
+	pdu = createPDU(6, index, status, varlist);
+	pdus = createPDUs(pdu, 6);
+	data = createANY(pdus);
+	message = createMessage(data, version, community);
+	asn_enc_rval_t ret = asn_encode_to_buffer(0, ATS_BER, &asn_DEF_Message, message, buffer_final, buffer_final_size);
+
+	if(ret.encoded == -1){
+		printf("Erro a codificar o %s\n", ret.failed_type->name);
+	}
+	else{
+		xer_fprint(stdout, &asn_DEF_Message, message);
+		xer_fprint(stdout, &asn_DEF_PDUs, pdus);
+	} 
+}
+
 void setRequestPri(int flag, void* setValue, unsigned long version, char* community, char* oid){
 	ObjectSyntax_t* object_syntax;
 	SimpleSyntax_t* simple;
@@ -137,7 +240,7 @@ void setRequestPri(int flag, void* setValue, unsigned long version, char* commun
 	object_name = getOID(oid);
 	var_bind = createVarbind(object_syntax, object_name);
 	int r = ASN_SEQUENCE_ADD(&varlist->list, var_bind);
-	pdu = createPDU(4, varlist);
+	pdu = createPDU(4, 0, 0, varlist);
 	pdus = createPDUs(pdu, 4);
 	data = createANY(pdus);
 	message = createMessage(data, version, community);

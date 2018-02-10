@@ -164,6 +164,81 @@ void getBulkRequest(){
 	getBulkRequestPri(non_r, max_r, version, comm, oid);
 }
 
+void response(){
+	unsigned long version, index, status;
+	char comm[1024], oid[1024];
+
+	printf("Qual o erro de index?\n");
+	scanf("%ld", &index);
+
+
+	printf("Qual o erro de status?\n");
+	scanf("%ld", &status);
+
+	printf("Qual a versão do snmp?\n");
+	scanf("%ld", &version);
+
+	//Clear input buffer
+	while ((c = getchar()) != '\n' && c != EOF) { }
+	printf("Qual a community string?\n");
+	fgets(comm, 1024, stdin);
+
+	printf("Insira o OID:\n");
+	fgets(oid, 1024, stdin);
+
+	responsePri(index, status, version, comm, oid);
+}
+
+void informRequest(){
+	unsigned long version, index, status;
+	char comm[1024], oid[1024];
+
+	printf("Qual o valor de sysUpTime.0?\n");
+	scanf("%ld", &index);
+
+
+	printf("Qual o valor de snmpTrapOID.0?\n");
+	scanf("%ld", &status);
+
+	printf("Qual a versão do snmp?\n");
+	scanf("%ld", &version);
+
+	//Clear input buffer
+	while ((c = getchar()) != '\n' && c != EOF) { }
+	printf("Qual a community string?\n");
+	fgets(comm, 1024, stdin);
+
+	printf("Insira o OID:\n");
+	fgets(oid, 1024, stdin);
+
+	informRequestPri(index, status, version, comm, oid);
+}
+
+void trap(){
+	unsigned long version, index, status;
+	char comm[1024], oid[1024];
+
+	printf("Qual o valor de sysUpTime.0?\n");
+	scanf("%ld", &index);
+
+
+	printf("Qual o valor de snmpTrapOID.0?\n");
+	scanf("%ld", &status);
+
+	printf("Qual a versão do snmp?\n");
+	scanf("%ld", &version);
+
+	//Clear input buffer
+	while ((c = getchar()) != '\n' && c != EOF) { }
+	printf("Qual a community string?\n");
+	fgets(comm, 1024, stdin);
+
+	printf("Insira o OID:\n");
+	fgets(oid, 1024, stdin);
+
+	trapPri(index, status, version, comm, oid);
+}
+
 void priInput(int escolha){
 
 	switch(escolha){
@@ -183,10 +258,10 @@ void priInput(int escolha){
 			setRequest();
 			break;
 		case 5:
-			//informRequest();
+			informRequest();
 			break;
 		case 6:
-			//trap();
+			trap();
 			break;
 		case 7:
 			//report();

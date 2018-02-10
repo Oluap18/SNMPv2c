@@ -4,6 +4,6 @@
 #include "PDU.h"
 #include "VarBindList.h"
 
-PDU_t* createPDU(int requestID, VarBindList_t* varlist);
+PDU_t* createPDU(int requestID, long index, long status, VarBindList_t* varlist);
 
 #endif
