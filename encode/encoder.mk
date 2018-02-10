@@ -7,11 +7,10 @@ ASN_PROGRAM ?= encoder
 ASN_PROGRAM_SRCS ?= \
 	message.c\
 	any.c\
-	setRequestPDU.c\
+	pdu.c\
 	pdus.c\
 	varBindList.c\
 	varbind.c\
-	objectname.c\
 	API.c\
 	objectSyntax.c\
 	applicationSyntax.c\

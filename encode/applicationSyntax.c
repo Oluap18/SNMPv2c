@@ -11,7 +11,6 @@ ApplicationSyntax_t* createApplicationSyntax(int flag, void* value){
 			if(OCTET_STRING_fromBuf(octet, value, -1) == -1){
 				printf("Erro na conversão para OCTET_STRING.\n");
 			}
-			printf("%s\n", octet->buf);
 			application->choice.ipAddress_value = *((IpAddress_t*)octet);
 			break;
 		case 1:

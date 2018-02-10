@@ -1,12 +1,5 @@
 #include "API.h"
 #include <stdio.h>
-#include "objectname.h"
-#include "varbind.h"
-#include "varBindList.h"
-#include "setRequestPDU.h"
-#include "pdus.h"
-#include "any.h"
-#include "message.h"
 
 //Para limpar o buffer
 char c;
@@ -27,7 +20,7 @@ int menuPri(){
 }
 
 void setRequest(){
-	int escolha;
+	int setType;
 	char string[1024], oid[1024], comm[1024];
 	long integer;
 	int inteiro;
@@ -44,11 +37,11 @@ void setRequest(){
 	printf("6. Arbitrário\n");
 	printf("7. BigCounter\n");
 	printf("8. UnsignedInteger\n");
-	scanf("%d", &escolha);
+	scanf("%d", &setType);
 	//Clear input buffer
 	while ((c = getchar()) != '\n' && c != EOF) { }
 
-	switch(escolha){
+	switch(setType){
 		case 0:
 			printf("Insira o Integer a colocar:\n");
 			scanf("%ld", &integer);
@@ -107,17 +100,53 @@ void setRequest(){
 	printf("Insira o OID:\n");
 	fgets(oid, 1024, stdin);
 
-	setRequestPri(escolha, value, version, comm, oid);
+	setRequestPri(setType, value, version, comm, oid);
+}
+
+void getRequest(){
+	unsigned long version;
+	char comm[1024], oid[1024];
+
+	printf("Qual a versão do snmp?\n");
+	scanf("%ld", &version);
+
+	//Clear input buffer
+	while ((c = getchar()) != '\n' && c != EOF) { }
+	printf("Qual a community string?\n");
+	fgets(comm, 1024, stdin);
+
+	printf("Insira o OID:\n");
+	fgets(oid, 1024, stdin);
+
+	getRequestPri(version, comm, oid);
+}
+
+void getNextRequest(){
+	unsigned long version;
+	char comm[1024], oid[1024];
+
+	printf("Qual a versão do snmp?\n");
+	scanf("%ld", &version);
+
+	//Clear input buffer
+	while ((c = getchar()) != '\n' && c != EOF) { }
+	printf("Qual a community string?\n");
+	fgets(comm, 1024, stdin);
+
+	printf("Insira o OID:\n");
+	fgets(oid, 1024, stdin);
+
+	getNextRequestPri(version, comm, oid);
 }
 
 void priInput(int escolha){
 
 	switch(escolha){
 		case 0:
-			//getRequest();
+			getRequest();
 			break;
 		case 1:
-			//getNextRequest();
+			getNextRequest();
 			break;
 		case 2:
 			//getBulkRequest();

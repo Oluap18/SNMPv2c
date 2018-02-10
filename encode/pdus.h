@@ -2,8 +2,8 @@
 #define	_pdus_H_
 
 #include "PDUs.h"
-#include "SetRequest-PDU.h"
+#include "PDU.h"
 
-PDUs_t* createPDU(SetRequest_PDU_t* setRequestPDU, int escolha);
+PDUs_t* createPDUs(PDU_t* pdu);
 
 #endif
