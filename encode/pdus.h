@@ -2,8 +2,7 @@
 #define	_pdus_H_
 
 #include "PDUs.h"
-#include "PDU.h"
 
-PDUs_t* createPDUs(PDU_t* pdu);
+PDUs_t* createPDUs(void* pdu, int escolha);
 
 #endif

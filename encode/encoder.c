@@ -139,6 +139,31 @@ void getNextRequest(){
 	getNextRequestPri(version, comm, oid);
 }
 
+void getBulkRequest(){
+	unsigned long version, non_r, max_r;
+	char comm[1024], oid[1024];
+
+	printf("Qual o número de non_repeaters?\n");
+	scanf("%ld", &non_r);
+
+
+	printf("Qual o número de max_repeaters?\n");
+	scanf("%ld", &max_r);
+
+	printf("Qual a versão do snmp?\n");
+	scanf("%ld", &version);
+
+	//Clear input buffer
+	while ((c = getchar()) != '\n' && c != EOF) { }
+	printf("Qual a community string?\n");
+	fgets(comm, 1024, stdin);
+
+	printf("Insira o OID:\n");
+	fgets(oid, 1024, stdin);
+
+	getBulkRequestPri(non_r, max_r, version, comm, oid);
+}
+
 void priInput(int escolha){
 
 	switch(escolha){
@@ -149,10 +174,10 @@ void priInput(int escolha){
 			getNextRequest();
 			break;
 		case 2:
-			//getBulkRequest();
+			getBulkRequest();
 			break;
 		case 3:
-			//response();
+			response();
 			break;
 		case 4:
 			setRequest();
