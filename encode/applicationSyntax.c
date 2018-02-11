@@ -4,6 +4,7 @@ ApplicationSyntax_t* createApplicationSyntax(int flag, void* value){
 	ApplicationSyntax_t* application;
 	application = calloc(1, sizeof(ApplicationSyntax_t));
 	OCTET_STRING_t* octet;
+	INTEGER_t* i;
 	switch(flag){
 		case 0:
 			application->present = ApplicationSyntax_PR_ipAddress_value;
@@ -31,7 +32,10 @@ ApplicationSyntax_t* createApplicationSyntax(int flag, void* value){
 			break;
 		case 4:
 			application->present = ApplicationSyntax_PR_big_counter_value;
-			application->choice.big_counter_value = *((INTEGER_t*)value);
+			i = calloc(1, sizeof(INTEGER_t));
+			asn_long2INTEGER(i, *((long*)value));
+			application->choice.big_counter_value = *i;
+
 			break;
 		case 5:
 			application->present = ApplicationSyntax_PR_unsigned_integer_value;

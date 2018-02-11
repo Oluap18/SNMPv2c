@@ -81,8 +81,8 @@ uint8_t* setRequest(){
 			break;
 		case 7:
 			printf("Insira o BigCounter a colocar\n");
-			scanf("%d", &inteiro);
-			value = &inteiro;
+			scanf("%ld", &lu);
+			value = &lu;
 			break;
 		case 8:
 			printf("Insira o UnsignedInteger a colocar\n");
