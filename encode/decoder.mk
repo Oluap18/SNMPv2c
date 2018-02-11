@@ -14,7 +14,6 @@ ASN_PROGRAM_SRCS ?= \
 	API.c\
 	objectSyntax.c\
 	applicationSyntax.c\
-	object_identifier.c\
 	simpleSyntax.c\
 	decoder.c\
 	pdu_collection.c
