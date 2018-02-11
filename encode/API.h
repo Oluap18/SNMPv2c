@@ -4,75 +4,89 @@
 #include "ObjectName.h"
 
 /*
- * Cria um pdu com a primitiva PDUs_PR_get_request, com request_id de 0, contendo um objectSyntax nulo.
- * Preenche a primitiva com a versão, a community string e os vários OIDs, com os valores
- * dados como argumentos.
+ * Envia o que está no buffer, pela porta "port" para o ip "ip".
 */
-void getRequestPri(unsigned long version, char* community, char** oid);
+void escreveUDP(int port, char* ip, uint8_t* buffer);
+
 
 /*
- * Cria um pdu com a primitiva PDUs_PR_get_next_request, com request_id de 1, contendo um objectSyntax nulo.
- * Preenche a primitiva com a versão, a community string e os vários OIDs, com os valores
- * dados como argumentos.
+ * Escreve o que está no buffer para um ficheiro com o nome de "file".txt. Separa cada elemento do buffer
+ * com um espaço.
 */
-void getNextRequestPri(unsigned long version, char* community, char** oid);
+void escreveFicheiro(char* file, uint8_t* buffer);
 
 /*
- * Cria um pdu com a primitiva PDUs_PR_get_bulk_request, com request_id de 2, contendo um objectSyntax nulo.
- * Preenche a primitiva os valores de non_repeaters e max_repeaters com os valores dados como argumentos
- * non_r e max_r respetivamente, preenchendo os campos de error_index e error_status com esses valores.
- * Preenche também a versão, a community string e os vários OIDs, com os valores dados como argumentos.
+ * Função auxiliar que cria a primitiva codificida utilizando o esquema ASN.1/BER para um buffer.
+ * Inicialmente, cria uma estrutura ObjectSyntax_t* dependendo do valor de "typeObject" e "objectValue":
+ * typeObject = 0 -> objectValue é um SimpleSyntax
+ * typeObject = 1 -> objectValue é um ApplicationSyntax
+ * typeObject = 2 -> objectValue é descartado
+ * De seguida, para cada OID no array de OIDs "oid", recebido como argumento, cria uma estrutura 
+ * VarBind_t* com o ObjectName_t* relativo ao OID e ObjectSyntax_t* criado anteriormente. É criada
+ * uma estrutura VarBindList_t* possuindo toas as VarBind_t*.
+ * É criado o PDU relativa à primitiva em questão.
+ * Após criada a estrutura do PDU, é criada a estrutura que identifica para a descodificação, o tipo de PDU
+ * que foi codificado, através do campo present. A estrutura PDUs_t* é criada dependendo do pduType, sendo que:
+ * pduType = 0 -> primitiva getRequest
+ * pduType = 1 -> primitiva getNextRequest
+ * pduType = 2 -> primitiva getBulkRequest
+ * pduType = 3 -> primitiva response
+ * pduType = 4 -> primitiva setRequest
+ * pduType = 5 -> primitiva informRequest
+ * pduType = 6 -> primitiva trap
+ * pduType = 7 -> primitiva report
+ * Após codificado o PDU e guardado em ANY_t*, é criada a última estrutura, Message_t* que guarda 
+ * todos os dados criados anteriormente, assim como a versão do SNMP, e a community string.
+ * Por fim, é codificada a estrutura Message_t* para um array de uint8_t, que é devolvido como return.
 */
-void getBulkRequestPri(long non_r, long max_r, unsigned long version, char* community, char** oid);
+uint8_t* auxPri(int typeObject, void* objectValue, int pduType, long index, long status, unsigned long version, char* community, char** oid);
 
 /*
- * Cria um pdu com a primitiva PDUs_PR_response, com request_id de 3, contendo um objectSyntax nulo.
- * Preenche a primitiva os valores de error_index e error_status com os valores dados como argumentos
- * index e statuts respetivamente.
- * Preenche também a versão, a community string e os vários OIDs, com os valores dados como argumentos.
+ * Retorna um buffer com a primitiva getRequest codificada, com auxilio da função auxPri.
 */
-void responsePri(long index, long status, unsigned long version, char* community, char** oid);
+uint8_t* getRequestPri(unsigned long version, char* community, char** oid);
 
 /*
- * Cria um pdu com a primitiva PDUs_PR_set_request, com request_id de 4, 
- * contendo um objectSyntax de acordo com a flag.
- * Caso a flag seja 0, cria uma estrutura SimpleSyntax com o valor de Integer.
- * Caso a flag seja 1, cria uma estrutura SimpleSyntax com o valor de String.
- * Caso a flag seja 2, cria uma estrutura SimpleSyntax com o valor de ObjectID.
- * Caso a flag seja 3, cria uma estrutura ApplicationSyntax com o valor de IpAddress.
- * Caso a flag seja 4, cria uma estrutura ApplicationSyntax com o valor de Counter.
- * Caso a flag seja 5, cria uma estrutura ApplicationSyntax com o valor de TimeTicks.
- * Caso a flag seja 6, cria uma estrutura ApplicationSyntax com o valor de Arbitrário.
- * Caso a flag seja 7, cria uma estrutura ApplicationSyntax com o valor de BigCounter.
- * Caso a flag seja 8, cria uma estrutura ApplicationSyntax com o valor de UnsignedInteger.
- * Preenche a primitiva os valores de error_index e error_status a 0.
- * Preenche também a versão, a community string e os vários OIDs, com os valores dados como argumentos.
+ * Retorna um buffer com a primitiva getNextRequest codificada, com auxilio da função auxPri.
 */
-void setRequestPri(int flag, void* setValue, unsigned long version, char* community, char** oid);
+uint8_t* getNextRequestPri(unsigned long version, char* community, char** oid);
 
 /*
- * Cria um pdu com a primitiva PDUs_PR_inform_request, com request_id de 5, contendo um objectSyntax nulo.
- * Preenche a primitiva os valores de error_index e error_status com os valores dados como argumentos
- * index e statuts respetivamente.
- * Preenche também a versão, a community string e os vários OIDs, com os valores dados como argumentos.
+ * Retorna um buffer com a primitiva getBulkRequest codificada, com auxilio da função auxPri.
 */
-void informRequestPri(long index, long status, unsigned long version, char* community, char** oid);
+uint8_t* getBulkRequestPri(long non_r, long max_r, unsigned long version, char* community, char** oid);
 
 /*
- * Cria um pdu com a primitiva PDUs_PR_snmpV2_trap, com request_id de 6, contendo um objectSyntax nulo.
- * Preenche a primitiva os valores de error_index e error_status com os valores dados como argumentos
- * index e statuts respetivamente.
- * Preenche também a versão, a community string e os vários OIDs, com os valores dados como argumentos.
+ * Retorna um buffer com a primitiva response codificada, com auxilio da função auxPri.
 */
-void trapPri(long index, long status, unsigned long version, char* community, char** oid);
+uint8_t* responsePri(long index, long status, unsigned long version, char* community, char** oid);
 
 /*
- * Cria um pdu com a primitiva PDUs_PR_report, com request_id de 7, contendo um SimpleSyntax.
- * Preenche a primitiva os valores de error_index e error_status com os valores dados como argumentos
- * index e statuts respetivamente e guarda a mensagem de erro dada como argumento na estrutura SimpleSyntax
- * criada, guardando como valor de string.
- * Preenche também a versão, a community string e os vários OIDs, com os valores dados como argumentos.
+ * Dependendo do valor da flag, cria diferentes estruturas:
+ * flag >=0 e < 3, cria um SimpleSyntax_t*, e retorna um buffer com a 
+ * primitiva setRequest codificada, com auxilio da função auxPri, dando como objectValue 
+ * a estrutura criada.
+ * flag >=4 , cria um ApplicationSyntax_t*, e retorna um buffer com a 
+ * primitiva setRequest codificada, com auxilio da função auxPri, dando como objectValue 
+ * a estrutura criada.
 */
-void reportPri(long index, long status, char* mensagem, unsigned long version, char* community, char** oid);
+uint8_t* setRequestPri(int flag, void* setValue, unsigned long version, char* community, char** oid);
+
+/*
+ * Retorna um buffer com a primitiva informRequest codificada, com auxilio da função auxPri.
+*/
+uint8_t* informRequestPri(long index, long status, unsigned long version, char* community, char** oid);
+
+/*
+ * Retorna um buffer com a primitiva trap codificada, com auxilio da função auxPri.
+*/
+uint8_t* trapPri(long index, long status, unsigned long version, char* community, char** oid);
+
+/*
+ * Primitiva que permite guardar o index_error e o status_error, assim como uma mensagem a explicar
+ * o porque do report.
+ * Retorna um buffer com a primitiva report codificada, com auxilio da função auxPri.
+*/
+uint8_t* reportPri(long index, long status, char* mensagem, unsigned long version, char* community, char** oid);
 
 #endif

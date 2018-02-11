@@ -19,13 +19,14 @@ int menuPri(){
 	return escolha;
 }
 
-void setRequest(){
+uint8_t* setRequest(){
 	int setType;
 	char string[1024], oid[1024], comm[1024], **oids;
 	long integer;
 	int inteiro, counter = 0, init=0;
 	void* value;
 	unsigned long lu, version;
+	uint8_t* buffer;
 	oids = (char**)malloc(sizeof(char*));
 
 	printf("Tipo do valor a colocar:\n");
@@ -116,13 +117,15 @@ void setRequest(){
 		}
 	}
 
-	setRequestPri(setType, value, version, comm, oids);
+	buffer = setRequestPri(setType, value, version, comm, oids);
+	return buffer;
 }
 
-void getRequest(){
+uint8_t* getRequest(){
 	unsigned long version;
 	char comm[1024], oid[1024], **oids;
 	int counter=0, init=0;
+	uint8_t* buffer;
 
 	oids = (char**)malloc(sizeof(char*));
 
@@ -152,14 +155,16 @@ void getRequest(){
 		}
 	}
 
-	getRequestPri(version, comm, oids);
+	buffer = getRequestPri(version, comm, oids);
+	return buffer;
 }
 
-void getNextRequest(){
+uint8_t* getNextRequest(){
 	unsigned long version;
 	char comm[1024], oid[1024], **oids;
 	int counter=0, init=0;
 	oids = (char**)malloc(sizeof(char*));
+	uint8_t* buffer;
 
 
 	printf("Qual a versão do snmp?\n");
@@ -188,13 +193,15 @@ void getNextRequest(){
 		}
 	}
 
-	getNextRequestPri(version, comm, oids);
+	buffer = getNextRequestPri(version, comm, oids);
+	return buffer;
 }
 
-void getBulkRequest(){
+uint8_t* getBulkRequest(){
 	unsigned long version, non_r, max_r;
 	char comm[1024], oid[1024], **oids;
 	int counter=0, init=0;
+	uint8_t* buffer;
 	oids = (char**)malloc(sizeof(char*));
 
 	printf("Qual o número de non_repeaters?\n");
@@ -230,13 +237,15 @@ void getBulkRequest(){
 		}
 	}
 
-	getBulkRequestPri(non_r, max_r, version, comm, oids);
+	buffer = getBulkRequestPri(non_r, max_r, version, comm, oids);
+	return buffer;
 }
 
-void response(){
+uint8_t* response(){
 	unsigned long version, index, status;
 	char comm[1024], oid[1024], **oids;
 	int counter=0, init=0;
+	uint8_t* buffer;
 	oids = (char**)malloc(sizeof(char*));
 
 	printf("Qual o erro de index?\n");
@@ -272,13 +281,15 @@ void response(){
 		}
 	}
 
-	responsePri(index, status, version, comm, oids);
+	buffer = responsePri(index, status, version, comm, oids);
+	return buffer;
 }
 
-void informRequest(){
+uint8_t* informRequest(){
 	unsigned long version, index, status;
 	char comm[1024], oid[1024], **oids;
 	int counter=0, init=0;
+	uint8_t* buffer;
 	oids = (char**)malloc(sizeof(char*));
 
 	printf("Qual o valor de sysUpTime.0?\n");
@@ -314,13 +325,15 @@ void informRequest(){
 		}
 	}
 
-	informRequestPri(index, status, version, comm, oids);
+	buffer = informRequestPri(index, status, version, comm, oids);
+	return buffer;
 }
 
-void trap(){
+uint8_t* trap(){
 	unsigned long version, index, status;
 	char comm[1024], oid[1024], **oids;
 	int init=0, counter=0;
+	uint8_t* buffer;
 	oids = (char**)malloc(sizeof(char*));
 
 	printf("Qual o valor de sysUpTime.0?\n");
@@ -356,14 +369,16 @@ void trap(){
 		}
 	}
 
-	trapPri(index, status, version, comm, oids);
+	buffer = trapPri(index, status, version, comm, oids);
+	return buffer;
 }
 
-void report(){
+uint8_t* report(){
 	unsigned long version, index, status;
 	char comm[1024], oid[1024], mensagem[1024], **oids;
 	int init=0, counter=0;
 	oids = (char**)malloc(sizeof(char*));
+	uint8_t* buffer;
 
 	printf("Qual o valor de erro index?\n");
 	scanf("%ld", &index);
@@ -402,36 +417,59 @@ void report(){
 		}
 	}
 
-	reportPri(index, status, mensagem, version, comm, oids);
+	buffer = reportPri(index, status, mensagem, version, comm, oids);
+	return buffer;
 }
 
 void priInput(int escolha){
+	uint8_t* buffer;
+	int opc, port;
+	char string[1024];
 
 	switch(escolha){
 		case 0:
-			getRequest();
+			buffer = getRequest();
 			break;
 		case 1:
-			getNextRequest();
+			buffer = getNextRequest();
 			break;
 		case 2:
-			getBulkRequest();
+			buffer = getBulkRequest();
 			break;
 		case 3:
-			response();
+			buffer = response();
 			break;
 		case 4:
-			setRequest();
+			buffer = setRequest();
 			break;
 		case 5:
-			informRequest();
+			buffer = informRequest();
 			break;
 		case 6:
-			trap();
+			buffer = trap();
 			break;
 		case 7:
-			report();
+			buffer = report();
 			break;
+	}
+
+	printf("Deseja:\n");
+	printf("1.Enviar por UDP.\n");
+	printf("2.Escrever num ficheiro.\n");
+	scanf("%d", &opc);
+	if(opc == 1){
+		printf("Port: \n");
+		scanf("%d", &port);
+		while ((c = getchar()) != '\n' && c != EOF) { }
+		printf("IP:\n");
+		fgets(string, 1024, stdin);
+		escreveUDP(port, string, buffer);
+	}
+	else{
+		while ((c = getchar()) != '\n' && c != EOF) { }
+		printf("Nome do ficheiro:\n");
+		fgets(string, 1024, stdin);
+		escreveFicheiro(string, buffer);
 	}
 }
 
