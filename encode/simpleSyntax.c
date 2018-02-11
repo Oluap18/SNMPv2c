@@ -1,5 +1,4 @@
 #include "simpleSyntax.h"
-#include "object_identifier.h"
 
 OBJECT_IDENTIFIER_t* parseOID(char* oid){
 	OBJECT_IDENTIFIER_t* object;

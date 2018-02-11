@@ -4,7 +4,7 @@
 #include "ObjectSyntax.h"
 
 /*
- * Assume que a estrutura ObjectSyntax está vazia, alocando memória para esta
+ * Cria uma estrutura ObjectSyntax_t*, alocando memória para esta
  * e preenchendo com o valor "value", dependendo da flag. 
  * Caso a flag seja 0 assume que o value é do tipo SimpleSyntax_t*, preenchendo o 
  * object com os valores adequados. 
