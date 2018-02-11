@@ -4,6 +4,6 @@
 #include "ANY.h"
 #include "PDUs.h"
 
-ANY_t* createANY(PDUs_t* pdu);
+void createANY(ANY_t* data, PDUs_t* pdu);
 
 #endif

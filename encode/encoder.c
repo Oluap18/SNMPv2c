@@ -109,7 +109,6 @@ void setRequest(){
 			oids[counter] = (char*) malloc(sizeof(char)*(i-init));
 			memcpy( oids[counter], &oid[init], i-init );
 			oids[counter++][i-init] = '\0';
-			printf("%s\n", oids[counter-1]);
 			init = i+1;
 			if( oid[i] == '\0' || oid[i] == '\n'){
 				i--;
@@ -146,7 +145,6 @@ void getRequest(){
 			oids[counter] = (char*) malloc(sizeof(char)*(i-init));
 			memcpy( oids[counter], &oid[init], i-init );
 			oids[counter++][i-init] = '\0';
-			printf("%s\n", oids[counter-1]);
 			init = i+1;
 			if( oid[i] == '\0' || oid[i] == '\n'){
 				i--;
@@ -183,7 +181,6 @@ void getNextRequest(){
 			oids[counter] = (char*) malloc(sizeof(char)*(i-init));
 			memcpy( oids[counter], &oid[init], i-init );
 			oids[counter++][i-init] = '\0';
-			printf("%s\n", oids[counter-1]);
 			init = i+1;
 			if( oid[i] == '\0' || oid[i] == '\n'){
 				i--;
@@ -226,7 +223,6 @@ void getBulkRequest(){
 			oids[counter] = (char*) malloc(sizeof(char)*(i-init));
 			memcpy( oids[counter], &oid[init], i-init );
 			oids[counter++][i-init] = '\0';
-			printf("%s\n", oids[counter-1]);
 			init = i+1;
 			if( oid[i] == '\0' || oid[i] == '\n'){
 				i--;
@@ -269,7 +265,6 @@ void response(){
 			oids[counter] = (char*) malloc(sizeof(char)*(i-init));
 			memcpy( oids[counter], &oid[init], i-init );
 			oids[counter++][i-init] = '\0';
-			printf("%s\n", oids[counter-1]);
 			init = i+1;
 			if( oid[i] == '\0' || oid[i] == '\n'){
 				i--;
@@ -312,7 +307,6 @@ void informRequest(){
 			oids[counter] = (char*) malloc(sizeof(char)*(i-init));
 			memcpy( oids[counter], &oid[init], i-init );
 			oids[counter++][i-init] = '\0';
-			printf("%s\n", oids[counter-1]);
 			init = i+1;
 			if( oid[i] == '\0' || oid[i] == '\n'){
 				i--;
@@ -355,7 +349,6 @@ void trap(){
 			oids[counter] = (char*) malloc(sizeof(char)*(i-init));
 			memcpy( oids[counter], &oid[init], i-init );
 			oids[counter++][i-init] = '\0';
-			printf("%s\n", oids[counter-1]);
 			init = i+1;
 			if( oid[i] == '\0' || oid[i] == '\n'){
 				i--;
@@ -402,7 +395,6 @@ void report(){
 			oids[counter] = (char*) malloc(sizeof(char)*(i-init));
 			memcpy( oids[counter], &oid[init], i-init );
 			oids[counter++][i-init] = '\0';
-			printf("%s\n", oids[counter-1]);
 			init = i+1;
 			if( oid[i] == '\0' || oid[i] == '\n'){
 				i--;
