@@ -3,8 +3,12 @@
 #include "VarBind.h"
 #include "VarBindList.h"
 
-
-
+/*
+	*Função que recebe com argumento uma porta UDP e um uint8_t* que irá conter 
+	*o resultado do encode de um PDU SNMPv2.
+	*Esta função espera pela chegada de um buffer hexadecimal por parte do programa encoder que irá
+	*preencher a variável buffer.
+*/
 uint8_t* leUDP(int port, uint8_t* buffer){
 	size_t buffer_size = 1024;
 	struct sockaddr_in addr;
@@ -19,6 +23,13 @@ uint8_t* leUDP(int port, uint8_t* buffer){
 
 }
 
+/*
+	*A função buffer2pdus recebe como argumentos um buffer binário, o seu respetivo tamanho e um
+	*apontador para um estrutura PDUs_t vazia.
+	*Nesta função são é preenchida a estrutura PDU_t através do decode de um buffer binário e é feito
+	*o print da versão e da community string do respetivo PDU SNMP.
+*/
+
 int buffer2pdus (uint8_t* buffer_final,size_t size,PDUs_t* pdus){
 	Message_t *message = 0;
 	asn_dec_rval_t rval1 = asn_decode(0, ATS_BER, &asn_DEF_Message,
@@ -32,6 +43,16 @@ int buffer2pdus (uint8_t* buffer_final,size_t size,PDUs_t* pdus){
 	printf("community:%s",message->community.buf);
 
 }
+
+/*
+	*A função Pdus2Pdu recebe como argumento um apontador para um estrutura PDUs_t previamente
+	*preenchida e um apontador para void*.
+	*Depois de visitado o campo present da estrutura PDU_t é feito o cast para PDU_t* ou no
+	*caso do pdu ser do tipo Get_bulk_request para BulkPDU_t * preenchendo-se os respetivos
+	*campos de cada estrutura.
+	*São também imprimidos o request_id,Error_status,Error_index e no caso do pdu Get_bulk_request
+	*são imprimidos os campos non_repeaters,max_repetitions.
+*/
 
 int Pdus2Pdu (PDUs_t* pdu,void* pdu_t){
 
@@ -115,7 +136,12 @@ int Pdus2Pdu (PDUs_t* pdu,void* pdu_t){
 	return 0;
 
 }
-
+/*
+	*A função varBindList2Varbind recebe VarbindList* previamente preenchido assim Varbind_t**.
+	*Nesta função é preenchido o array de VarBind_t* com as informações presentes na VarBindList*
+	*consoante o tipo de variaveis contida no campo present.
+	*No decorrer da função são também imprimidos todos os OID's presentes na VarBindList_t*.
+*/
 int varBindList2VarBind(VarBindList_t *vbl,VarBind_t** vn){
 	
 	int j=0;
@@ -163,8 +189,18 @@ int varBindList2VarBind(VarBindList_t *vbl,VarBind_t** vn){
 	}
 	return 0;
 }
-int varBind2ObjSyntax(ObjectSyntax_t* obj){
 
+/*
+	*A função ParseObjectSyntax recebe como argumento um apontador para um estrutura ObjectSyntax_t
+	*previamente preenchida.
+	*Nesta função é feito o decode de uma estrutura ObjectSyntx_t imprimindo-se os possíveis tipos
+	*e dados presentes nas subestruturas SimpleSyntax_t e ApplicationSyntax_t através da verificação
+	*do conteudo presente nos campos present;
+*/
+
+
+int ParseObjSyntax(ObjectSyntax_t* obj){
+		long l;
 		int size;
 		int i;
 		if(obj->present == ObjectSyntax_PR_simple){
@@ -172,14 +208,14 @@ int varBind2ObjSyntax(ObjectSyntax_t* obj){
 				case SimpleSyntax_PR_NOTHING:
 					break;
 				case SimpleSyntax_PR_integer_value:
-					printf("integer_value: %li\n",obj->choice.simple.choice.integer_value);
+					printf("Integer_value: %li\n",obj->choice.simple.choice.integer_value);
 					break;
 				case SimpleSyntax_PR_string_value:
 					printf("String_value: %s\n",obj->choice.simple.choice.string_value.buf);
 					break;
 				case SimpleSyntax_PR_objectID_value:
 					size = obj->choice.simple.choice.objectID_value.size;
-					printf("objectID_value: ");
+					printf("ObjectID_value: ");
 					for(i=0;i<size;i++)
 						printf("%i.",obj->choice.simple.choice.objectID_value.buf[i]);
 					printf("%i",obj->choice.simple.choice.objectID_value.buf[i]);	
@@ -209,10 +245,11 @@ int varBind2ObjSyntax(ObjectSyntax_t* obj){
 					printf("Arbitrary_value: %s\n",obj->choice.application_wide.choice.arbitrary_value.buf);
 					break;
 				case ApplicationSyntax_PR_big_counter_value:
-					printf("Big_Counter_Value %s\n",obj->choice.application_wide.choice.big_counter_value.buf);
+					asn_INTEGER2long(&(obj->choice.application_wide.choice.big_counter_value),&l);
+					printf("Big_Counter_Value %li\n",l);
 					break;
 				case ApplicationSyntax_PR_unsigned_integer_value:
-					printf("Counter_value :%li\n",obj->choice.application_wide.choice.unsigned_integer_value);
+					printf("Unsigned_integer_value :%li\n",obj->choice.application_wide.choice.unsigned_integer_value);
 					break;
 				default:
 					break;
@@ -222,6 +259,15 @@ int varBind2ObjSyntax(ObjectSyntax_t* obj){
 		}
 	return 0;
 }
+
+/*
+	*A função menu interpola o utilizador sobre a possibilidade de receber um buffer ou através do 
+	*terminal, de um ficheiro, ou porta UDP.
+	*Nesta são alocadas todas as estruturas necessárias para o decode de um buffer assim como
+	*a chamada de todas as funções auxiliares ncessárias.
+*/
+
+
 
 int menu(){
 	FILE * f;
@@ -235,7 +281,8 @@ int menu(){
 	VarBind_t ** vb = (VarBind_t**) malloc(sizeof(struct VarBind*));
 	printf("Pretende descodificar:\n");
 	printf("1- Apartir de UDP.\n");
-	printf("2- Apartir de um ficheiro.\n");
+	printf("2- Apartir de um Ficheiro.\n");
+	printf("3- Apartir do Terminal\n");
 	scanf(" %i",&i);
 	if(i==1){
 		printf("Insira a porta\n");
@@ -252,6 +299,14 @@ int menu(){
 			x++;
 		}
 	}
+	if(i==3){
+		printf("Insira o buffer\n");
+		while(!feof(stdout)){
+			scanf("%hhi",&y);
+			buffer_final[x] = y;
+			x++;
+		}
+	}
 	else{
 		printf("Número inválido\n");
 	}
@@ -264,7 +319,7 @@ int menu(){
 	}
 	varBindList2VarBind(&(t_pdu->variable_bindings),vb);
 	for(i=0;i<size;i++){
-		varBind2ObjSyntax(&(vb[i]->choice.choice.value));
+		ParseObjSyntax(&(vb[i]->choice.choice.value));
 	}
 
 	xer_fprint(stdout,&asn_DEF_PDU,t_pdu);
