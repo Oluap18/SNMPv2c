@@ -5,8 +5,9 @@
 #include "VarBindList.h"
 
 /*
- * Cria uma estrutura PDU_t*, alocando memória para esta, e preenchendo os respetivos campos
- * com os valores dados como argumento.
+ * Cria uma estrutura PDU_t*, alocando memória para esta, os campos request_id, error_index,
+ * error_status e variable_bindings com os valores dados como argumentos requestID, index, status 
+ * e varlist, respetivamente.
  * O processo de descodificação assume os respetivos valores:
  * requestID = 0 -> primitiva getRequest
  * requestID = 1 -> primitiva getNextRequest
