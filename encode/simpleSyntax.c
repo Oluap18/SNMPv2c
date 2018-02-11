@@ -1,6 +1,18 @@
 #include "simpleSyntax.h"
 #include "object_identifier.h"
 
+OBJECT_IDENTIFIER_t* parseOID(char* oid){
+	OBJECT_IDENTIFIER_t* object;
+	uint32_t buffer[1024];
+	int init = 0, aux;
+	size_t counter;
+	object = calloc(1, sizeof(OBJECT_IDENTIFIER_t));
+
+	counter = OBJECT_IDENTIFIER_parse_arcs(oid, strlen(oid), buffer, 1024, NULL); 
+	OBJECT_IDENTIFIER_set_arcs(object, buffer, counter);
+	return object;
+}
+
 SimpleSyntax_t* createSimpleSyntax(int flag, void* value){
 	SimpleSyntax_t* simple;
 	simple = calloc(1, sizeof(SimpleSyntax_t));
@@ -21,10 +33,7 @@ SimpleSyntax_t* createSimpleSyntax(int flag, void* value){
 			break;
 		case 2:
 			simple->present = SimpleSyntax_PR_objectID_value;
-			oid = calloc(1, sizeof(OBJECT_IDENTIFIER_t));
-			if(object_identifier_fromBuf(oid, (char*) value, -1) == -1){
-				printf("Erro na conversão para OBJECT_IDENTIFIER.\n");
-			}
+			oid = parseOID((char*)value);
 			simple->choice.objectID_value = *oid;
 			break;
 	}

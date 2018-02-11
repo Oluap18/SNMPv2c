@@ -5,13 +5,13 @@ CFLAGS += $(ASN_MODULE_CFLAGS) -DASN_PDU_COLLECTION -I.
 ASN_LIBRARY ?= libasncodec.a
 ASN_PROGRAM ?= encoder
 ASN_PROGRAM_SRCS ?= \
+	bulk.c\
 	message.c\
 	any.c\
-	setRequestPDU.c\
+	pdu.c\
 	pdus.c\
 	varBindList.c\
 	varbind.c\
-	objectname.c\
 	API.c\
 	objectSyntax.c\
 	applicationSyntax.c\

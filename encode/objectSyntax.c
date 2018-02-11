@@ -10,8 +10,13 @@ ObjectSyntax_t* createObjectSyntax(int flag, void* value){
 		object->choice.simple = *((SimpleSyntax_t*) value);
 	}
 	else{
-		object->present = ObjectSyntax_PR_application_wide;
-		object->choice.application_wide = (*(ApplicationSyntax_t*) value);
+		if(flag==1){
+			object->present = ObjectSyntax_PR_application_wide;
+			object->choice.application_wide = (*(ApplicationSyntax_t*) value);
+		}
+		else{
+			object->present = ObjectSyntax_PR_NOTHING;
+		}
 	}
 	return object;
 }
