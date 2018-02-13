@@ -1,0 +1,37 @@
+Este projeto foi feito para Gestão de Redes.
+
+O enunciado do projeto pode ser lido no ficheiro projeto.pdf
+
+Como resolução, foram criados os seguintes ficheiros, na parte da codificação (pasta encode):
+
+objectName.c
+bulk.c
+message.c
+any.c
+pdu.c
+pdus.c
+varbind.c
+API.c
+objectSyntax.c
+applicationSyntax.c
+simpleSyntax.c
+encoder.c
+
+API.c - Ficheiro que contêm os métodos de codificação.
+encoder.c - Menu de testes
+Todos os outros ficheiros, serviram para auxiliar, de maneira organizada, o API.c
+
+Foram criados os seguintes ficheiros, na parte da descodificação (pasta decode):
+
+decoder.c
+API.c
+
+API.c - Ficheiro que contêm os métodos de descodificação.
+decoder.c - Menu de testes
+
+Para mais informações sobre a API, ler relatorio.pdf.
+
+Para criar todos os outros ficheiros, deverá seguir o ficheiro asn1c_tutorial.pdf
+
+COMMUNITY-BASED-SNMPv2.asn1 - Retirado de https://tools.ietf.org/html/rfc1901
+SNMPv2-PDU.asn1 - Retirado de https://tools.ietf.org/html/rfc3416
